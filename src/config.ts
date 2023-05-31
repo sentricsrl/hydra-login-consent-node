@@ -10,8 +10,9 @@ if (process.env.MOCK_TLS_TERMINATION) {
 }
 
 const configuration = new Configuration({
-  basePath: process.env.HYDRA_ADMIN_URL,
-  accessToken: process.env.ORY_API_KEY || process.env.ORY_PAT,
+  basePath: "https://auth.sentric.it",
+  username: "4830f912-4248-4ec3-90ee-2e3ac3b448e5", // ory client-id
+  password: "ONUi~AGVuT5RydbHwCLgz5-FAs", // ory client-secret
   baseOptions,
 })
 
