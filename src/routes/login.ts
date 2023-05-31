@@ -71,7 +71,7 @@ router.post("/", csrfProtection, (req, res, next) => {
     // Looks like the consent request was denied by the user
     return (
       hydraAdmin
-        .rejectOAuth2LoginRequest(challenge, {
+        .rejectOAuth2LoginRequest({loginChallenge: challenge}, {
           data: {
  error: "access_denied",
            error_description: "The resource owner denied the request",
@@ -105,10 +105,10 @@ router.post("/", csrfProtection, (req, res, next) => {
   // Seems like the user authenticated! Let's tell hydra...
 
   hydraAdmin
-    .getOAuth2LoginRequest(challenge, {params: {secret: "Sentric2019"}})
+    .getOAuth2LoginRequest({loginChallenge: challenge}, {params: {secret: "Sentric2019"}})
     .then(({ data: loginRequest }: {data: any}) =>
       hydraAdmin
-        .acceptOAuth2LoginRequest(challenge, {
+        .acceptOAuth2LoginRequest({loginChallenge: challenge}, {
           data: {
             acr: oidcConformityMaybeFakeAcr(loginRequest, "0"),
             remember_for: 3600,

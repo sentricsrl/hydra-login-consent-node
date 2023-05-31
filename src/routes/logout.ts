@@ -46,7 +46,7 @@ router.post("/", csrfProtection, (req, res, next) => {
   if (req.body.submit === "No") {
     return (
       hydraAdmin
-        .rejectOAuth2LogoutRequest(challenge, {params: {secret: "Sentric2019"}})
+        .rejectOAuth2LogoutRequest({logoutChallenge: challenge}, {params: {secret: "Sentric2019"}})
         .then(() => {
           // The user did not want to log out. Let's redirect him back somewhere or do something else.
           res.redirect("https://www.ory.sh/")
@@ -58,7 +58,7 @@ router.post("/", csrfProtection, (req, res, next) => {
 
   // The user agreed to log out, let's accept the logout request.
   hydraAdmin
-    .acceptOAuth2LogoutRequest(challenge, {params: {secret: "Sentric2019"}})
+    .acceptOAuth2LogoutRequest({logoutChallenge: challenge}, {params: {secret: "Sentric2019"}})
     .then(({ data: body }: {data: any}) => {
       // All we need to do now is to redirect the user back to hydra!
       res.redirect(String(body.redirect_to))

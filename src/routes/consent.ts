@@ -97,7 +97,7 @@ router.post("/", csrfProtection, (req, res, next) => {
     // Looks like the consent request was denied by the user
     return (
       hydraAdmin
-        .rejectOAuth2ConsentRequest(challenge, {
+        .rejectOAuth2ConsentRequest({consentChallenge: challenge}, {
           data: {
             error: "access_denied",
           error_description: "The resource owner denied the request",
@@ -142,11 +142,11 @@ router.post("/", csrfProtection, (req, res, next) => {
 
   // Let's fetch the consent request again to be able to set `grantAccessTokenAudience` properly.
   hydraAdmin
-    .getOAuth2ConsentRequest(challenge, {params: {secret: "Sentric2019"}})
+    .getOAuth2ConsentRequest({consentChallenge: challenge}, {params: {secret: "Sentric2019"}})
     // This will be called if the HTTP request was successful
     .then(({ data: body }: {data: any}) => {
       return hydraAdmin
-        .acceptOAuth2ConsentRequest(challenge, {
+        .acceptOAuth2ConsentRequest({consentChallenge: challenge}, {
           data: {// We can grant all scopes that have been requested - hydra already checked for us that no additional scopes
           // are requested accidentally.
           grant_scope: grantScope,
