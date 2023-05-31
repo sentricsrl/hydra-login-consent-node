@@ -11,8 +11,8 @@ if (process.env.MOCK_TLS_TERMINATION) {
 
 const configuration = new Configuration({
   basePath: "https://auth.sentric.it",
-  username: "4830f912-4248-4ec3-90ee-2e3ac3b448e5", // ory client-id
-  password: "ONUi~AGVuT5RydbHwCLgz5-FAs", // ory client-secret
+  username: "df73692b-1216-49c8-a14f-5a8a1b32a3fb", // ory client-id
+  password: "YNOWwA_1O9HH0MQ6a3PCuOu1uY", // ory client-secret
   baseOptions,
 })
 
