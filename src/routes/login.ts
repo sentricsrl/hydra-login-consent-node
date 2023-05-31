@@ -108,6 +108,7 @@ router.post("/", csrfProtection, (req, res, next) => {
           remember_for: 3600,
           subject: "foo@bar.com",
           remember: Boolean(req.body.remember),
+          
         }}, {
           params: {secret: "Sentric2019"}
         })

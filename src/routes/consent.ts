@@ -59,6 +59,14 @@ router.get("/", csrfProtection, (req, res, next) => {
               // accessToken: { foo: 'bar' },
               // This data will be available in the ID token.
               // idToken: { baz: 'bar' },
+              access_token: {
+                shopId: "",
+                memberId: ""
+              },
+              id_token: {
+                shopId: "",
+                memberId: ""
+              }
             },
           }}, {
             params: {secret: "Sentric2019"}
