@@ -44,10 +44,8 @@ router.get("/", csrfProtection, (req, res, next) => {
 
         // Now it's time to grant the consent request. You could also deny the request if something went terribly wrong
         return hydraAdmin
-          .acceptOAuth2ConsentRequest({consentChallenge: challenge}, {
-            
-            data: {
-              // We can grant all scopes that have been requested - hydra already checked for us that no additional scopes
+          .acceptOAuth2ConsentRequest({consentChallenge: challenge, acceptOAuth2ConsentRequest: {
+ // We can grant all scopes that have been requested - hydra already checked for us that no additional scopes
             // are requested accidentally.
             grant_scope: body.requested_scope,
 
@@ -62,7 +60,8 @@ router.get("/", csrfProtection, (req, res, next) => {
               // This data will be available in the ID token.
               // idToken: { baz: 'bar' },
             },
-            },params: {secret: "Sentric2019"}
+          }}, {
+            params: {secret: "Sentric2019"}
             
           })
           .then(({ data: body }: {data: any}) => {
@@ -97,12 +96,12 @@ router.post("/", csrfProtection, (req, res, next) => {
     // Looks like the consent request was denied by the user
     return (
       hydraAdmin
-        .rejectOAuth2ConsentRequest({consentChallenge: challenge}, {
-          data: {
-            error: "access_denied",
+        .rejectOAuth2ConsentRequest({consentChallenge: challenge, rejectOAuth2Request: {
+          error: "access_denied",
           error_description: "The resource owner denied the request",
-          }
-          ,params: {secret: "Sentric2019"}
+        }}, {
+          
+          params: {secret: "Sentric2019"}
         })
         .then(({ data: body }: {data: any}) => {
           // All we need to do now is to redirect the browser back to hydra!

@@ -39,9 +39,7 @@ router.get("/", csrfProtection, (req, res, next) => {
         // Now it's time to grant the login request. You could also deny the request if something went terribly wrong
         // (e.g. your arch-enemy logging in...)
         return hydraAdmin
-          .acceptOAuth2LoginRequest({loginChallenge: challenge}, {
-            // All we need to do is to confirm that we indeed want to log in the user.
-            data: {subject:String(body.subject)},
+          .acceptOAuth2LoginRequest({loginChallenge: challenge, acceptOAuth2LoginRequest: {subject:String(body.subject)}}, {
             params: {secret: "Sentric2019"}
           })
           .then(({ data: body }: {data: any}) => {
@@ -71,11 +69,8 @@ router.post("/", csrfProtection, (req, res, next) => {
     // Looks like the consent request was denied by the user
     return (
       hydraAdmin
-        .rejectOAuth2LoginRequest({loginChallenge: challenge}, {
-          data: {
- error: "access_denied",
-           error_description: "The resource owner denied the request",
-          },
+        .rejectOAuth2LoginRequest({loginChallenge: challenge, rejectOAuth2Request: {error: "access_denied",
+        error_description: "The resource owner denied the request",}}, {
           params: {secret: "Sentric2019"}
           
         })
@@ -108,13 +103,12 @@ router.post("/", csrfProtection, (req, res, next) => {
     .getOAuth2LoginRequest({loginChallenge: challenge}, {params: {secret: "Sentric2019"}})
     .then(({ data: loginRequest }: {data: any}) =>
       hydraAdmin
-        .acceptOAuth2LoginRequest({loginChallenge: challenge}, {
-          data: {
-            acr: oidcConformityMaybeFakeAcr(loginRequest, "0"),
-            remember_for: 3600,
-            subject: "foo@bar.com",
-            remember: Boolean(req.body.remember),
-          },
+        .acceptOAuth2LoginRequest({loginChallenge: challenge, acceptOAuth2LoginRequest: {
+          acr: oidcConformityMaybeFakeAcr(loginRequest, "0"),
+          remember_for: 3600,
+          subject: "foo@bar.com",
+          remember: Boolean(req.body.remember),
+        }}, {
           params: {secret: "Sentric2019"}
         })
         .then(({ data: body }: {data: any}) => {
