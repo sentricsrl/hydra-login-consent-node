@@ -11,8 +11,8 @@ if (process.env.MOCK_TLS_TERMINATION) {
 
 const configuration = new Configuration({
   basePath: "https://auth.sentric.it",
-  username: "df73692b-1216-49c8-a14f-5a8a1b32a3fb", // ory client-id
-  password: "YNOWwA_1O9HH0MQ6a3PCuOu1uY", // ory client-secret
+  username: "7d8631d0-f410-4666-b4e2-0baa6183edd4", // ory client-id
+  password: "CeIPLPwRSC2V2f6zzDRIK0vwkq", // ory client-secret
 })
 
 const hydraAdmin = new OAuth2Api(configuration)
