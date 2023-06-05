@@ -1,26 +1,26 @@
 extends layout
 
 block content
-    h1(id="login-title") Please log in
-    if error
-        p.
-            #{error}
-    form(action=action, method="POST")
-        input(type="hidden", name="_csrf", value=csrfToken)
-        input(type="hidden", name="challenge", value=challenge)
-        table(style="")
-            tr
-                td
-                    input(type="email", id="email", name="email", value=hint, placeholder="email@foobar.com")
-                td.
-                    (it's "foo@bar.com")
-            tr
-                td
-                    input(type="password", id="password", name="password")
-                td.
-                    (it's "foobar")
-        input(type="checkbox", id="remember", name="remember", value="1")
-        label(for="remember") Remember me
-        br
-        input(type="submit", id="accept", name="submit", value="Log in")
-        input(type="submit", id="reject", name="submit", value="Deny access")
+    div(class="flex justify-center items-center h-screen")
+        div(class="bg-white rounded-lg shadow-md p-10 w-full max-w-md")
+            h1(id="login-title" class="text-2xl font-bold mb-6 text-center") Please log in
+            if error
+                p(class="text-red-500 mb-4").
+                    #{error}
+            form(action=action, method="POST" class="space-y-4")
+                input(type="hidden", name="_csrf", value=csrfToken)
+                input(type="hidden", name="challenge", value=challenge)
+                div
+                    label(for="email" class="block text-sm font-medium text-gray-700") Email
+                    input(type="email", id="email", name="email", value=hint, placeholder="email@foobar.com", class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50")
+                div
+                    label(for="password" class="block text-sm font-medium text-gray-700") Password
+                    input(type="password", id="password", name="password", class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50")
+                div(class="flex items-center justify-between")
+                    div(class="flex items-center")
+                        input(type="checkbox", id="remember", name="remember", value="1", class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded")
+                        label(for="remember" class="ml-2 block text-sm text-gray-900") Remember me
+                div(class="flex justify-between")
+                    input(type="submit", id="accept", name="submit", value="Log in", class="mt-4 w-full inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500")
+                    input(type="submit", id="reject", name="submit", value="Deny access", class="mt-4 w-full inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500")
+

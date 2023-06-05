@@ -45,7 +45,7 @@ router.get("/", csrfProtection, (req, res, next) => {
         // Now it's time to grant the consent request. You could also deny the request if something went terribly wrong
         return hydraAdmin
           .acceptOAuth2ConsentRequest({consentChallenge: challenge, acceptOAuth2ConsentRequest: {
- // We can grant all scopes that have been requested - hydra already checked for us that no additional scopes
+            // We can grant all scopes that have been requested - hydra already checked for us that no additional scopes
             // are requested accidentally.
             grant_scope: body.requested_scope,
 

@@ -1,35 +1,37 @@
 extends layout
 
 block content
-    h1 An application requests access to your data!
-    form(action=action, method="POST")
-        input(type="hidden", name="challenge", value=challenge)
-        input(type="hidden", name="_csrf", value=csrfToken)
+    div(class="flex justify-center items-center h-screen")
+        div(class="bg-white rounded-lg shadow-md p-10 w-full max-w-md")
+            h1(class="text-2xl font-bold mb-6 text-center") An application requests access to your data!
+            form(action=action, method="POST" class="space-y-4")
+                input(type="hidden", name="challenge", value=challenge)
+                input(type="hidden", name="_csrf", value=csrfToken)
 
-        if client.logo_uri
-            img(src=client.logo_uri)
+                if client.logo_uri
+                    img(src=client.logo_uri, class="mx-auto h-12 w-auto")
 
-        p.
-            Hi #{user}, application <strong>#{client.client_name || client.client_id}</strong> wants access resources on your behalf and to:
+                p(class="text-gray-600").
+                    Hi #{user}, application <strong class="font-bold text-gray-900">#{client.client_name || client.client_id}</strong> wants access resources on your behalf and to:
 
-        each scope in requested_scope
-            input(type="checkbox", class="grant_scope", id=scope, value=scope, name="grant_scope")
-            label(for=scope) #{scope}
-            br
+                each scope in requested_scope
+                    div(class="flex items-center")
+                        input(type="checkbox", class="grant_scope h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded", id=scope, value=scope, name="grant_scope")
+                        label(for=scope, class="ml-2 block text-sm text-gray-900") #{scope}
 
-        p.
-            Do you want to be asked next time when this application wants to access your data? The application will
-            not be able to ask for more permissions without your consent.
-        ul
-            if client.policy_uri
-                li
-                    a(href=client.policy_uri) Policy
-            if client.tos_uri
-                li
-                    a(href=client.tos_uri) Terms of Service
-        p
-            input(type="checkbox", id="remember", name="remember", value="1")
-            label(for="remember") Do not ask me again
-        p
-            input(type="submit", id="accept", name="submit", value="Allow access")
-            input(type="submit", id="reject", name="submit", value="Deny access")
+                p(class="text-gray-600").
+                    Do you want to be asked next time when this application wants to access your data? The application will
+                    not be able to ask for more permissions without your consent.
+                ul(class="list-disc list-inside text-gray-600 space-y-1")
+                    if client.policy_uri
+                        li
+                            a(href=client.policy_uri, class="text-indigo-600 hover:text-indigo-500") Policy
+                    if client.tos_uri
+                        li
+                            a(href=client.tos_uri, class="text-indigo-600 hover:text-indigo-500") Terms of Service
+                div(class="flex items-center")
+                    input(type="checkbox", id="remember", name="remember", value="1", class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded")
+                    label(for="remember" class="ml-2 block text-sm text-gray-900") Do not ask me again
+                div(class="flex justify-between")
+                    input(type="submit", id="accept", name="submit", value="Allow access", class="mt-4 w-full inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500")
+                    input(type="submit", id="reject", name="submit", value="Deny access", class="mt-4 w-full inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500")
