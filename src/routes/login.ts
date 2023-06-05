@@ -7,6 +7,7 @@ import urljoin from "url-join"
 import csrf from "csurf"
 import { hydraAdmin } from "../config"
 import { oidcConformityMaybeFakeAcr } from "./stub/oidc-cert"
+import axios, {isCancel, AxiosError} from 'axios';
 
 // Sets up csrf protection
 const csrfProtection = csrf({
@@ -60,7 +61,7 @@ router.get("/", csrfProtection, (req, res, next) => {
     .catch(next)
 })
 
-router.post("/", csrfProtection, (req, res, next) => {
+router.post("/", csrfProtection, async (req, res, next) => {
   // The challenge is now a hidden input field, so let's take it from the request body instead
   const challenge = req.body.challenge
 
@@ -83,9 +84,19 @@ router.post("/", csrfProtection, (req, res, next) => {
     )
   }
 
+  const email = req.body.email;
+  const passwd = req.body.password;
+
+  const data = `${email}:${passwd}`;
+  const buff = Buffer.from(data);
+  const base64data = buff.toString('base64');
+
+  const isLogged = await axios.post("https://sentric.it/_functions/signin", undefined, {headers: {Authorization: `BASIC ${base64data}`}}).then((res)=>res.status == 200
+  )
+
   // Let's check if the user provided valid credentials. Of course, you'd use a database or some third-party service
   // for this!
-  if (!(req.body.email === "foo@bar.com" && req.body.password === "foobar")) {
+  if (!isLogged) {
     // Looks like the user provided invalid credentials, let's show the ui again...
 
     res.render("login", {
@@ -106,7 +117,7 @@ router.post("/", csrfProtection, (req, res, next) => {
         .acceptOAuth2LoginRequest({loginChallenge: challenge, acceptOAuth2LoginRequest: {
           acr: oidcConformityMaybeFakeAcr(loginRequest, "0"),
           remember_for: 3600,
-          subject: "foo@bar.com",
+          subject: email,
           remember: Boolean(req.body.remember),
           
         }}, {
