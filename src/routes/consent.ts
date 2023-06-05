@@ -156,8 +156,8 @@ router.post("/", csrfProtection, (req, res, next) => {
           // and this only exists to fake a login system which works in accordance to OpenID Connect.
           //
           // If that variable is not set, the session will be used as-is.
-          session: oidcConformityMaybeFakeSession(grantScope, body, session),
-
+          // session: oidcConformityMaybeFakeSession(grantScope, body, session),
+          session: session,
           // ORY Hydra checks if requested audiences are allowed by the client, so we can simply echo this.
           grant_access_token_audience: body.requested_access_token_audience,
 
