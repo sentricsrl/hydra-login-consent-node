@@ -145,8 +145,8 @@ router.post("/", csrfProtection, (req, res, next) => {
     // This will be called if the HTTP request was successful
     .then(({ data: body }: {data: any}) => {
       return hydraAdmin
-        .acceptOAuth2ConsentRequest({consentChallenge: challenge}, {
-          data: {// We can grant all scopes that have been requested - hydra already checked for us that no additional scopes
+        .acceptOAuth2ConsentRequest({consentChallenge: challenge, acceptOAuth2ConsentRequest: {
+          // We can grant all scopes that have been requested - hydra already checked for us that no additional scopes
           // are requested accidentally.
           grant_scope: grantScope,
 
@@ -166,7 +166,9 @@ router.post("/", csrfProtection, (req, res, next) => {
           remember: Boolean(req.body.remember),
 
           // When this "remember" sesion expires, in seconds. Set this to 0 so it will never expire.
-          remember_for: 3600,},
+          remember_for: 3600,
+        }}, {
+          data: {},
           params: {secret: "Sentric2019"}
           
         })
