@@ -63,10 +63,6 @@ router.get("/", csrfProtection, (req, res, next) => {
                 shopId: "",
                 memberId: ""
               },
-              id_token: {
-                shopId: "",
-                memberId: ""
-              }
             },
           }}, {
             params: {secret: "Sentric2019"}
@@ -131,12 +127,8 @@ router.post("/", csrfProtection, (req, res, next) => {
     // This data will be available when introspecting the token. Try to avoid sensitive information here,
     // unless you limit who can introspect tokens.
     access_token: {
-      // foo: 'bar'
-    },
-
-    // This data will be available in the ID token.
-    id_token: {
-      // baz: 'bar'
+      shopId: "",
+      memberId: ""
     },
   }
 
